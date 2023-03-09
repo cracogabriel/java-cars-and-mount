@@ -1,42 +1,56 @@
 package craco.dev.springboot2essentials.services;
 
 import craco.dev.springboot2essentials.domain.Car;
+import craco.dev.springboot2essentials.repository.CarRepository;
+import craco.dev.springboot2essentials.requests.CarPostRequestBody;
+import craco.dev.springboot2essentials.requests.CarPutRequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class CarService {
-    private static ArrayList<Car> mockedCars = new ArrayList<Car>();
+    private final CarRepository carRepository;
 
-
-    public ArrayList<Car> listAll() {
-        return mockedCars;
+    public CarService(CarRepository carRepository) {
+        this.carRepository = carRepository;
     }
 
-    public Car getById(Integer id) {
-        return mockedCars.stream()
-                .filter(car -> car.getId().equals(id))
-                .findFirst()
+    public List<Car> listAll() {
+        return carRepository.findAll();
+    }
+
+    public List<Car> findAllByColorName(String color) {
+        return carRepository.findByColor(color);
+    }
+
+    public Car findByIdOrThrowBadRequest(Integer id) {
+        return carRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Carro não encontrado"));
     }
 
-    public Car save(Car car) {
-        car.setId(ThreadLocalRandom.current().nextInt(3, 10000000));
-        mockedCars.add(car);
-        return car;
+    public Car save(CarPostRequestBody carPostRequestBody) {
+        var newCar = new Car();
+        newCar.setName(carPostRequestBody.getName());
+        newCar.setColor(carPostRequestBody.getColor());
+        newCar.setYear(carPostRequestBody.getYear());
+        return carRepository.save(newCar);
     }
 
-    public void edit(Car car) {
-        delete(car.getId());
-        mockedCars.add(car);
+    public void edit(CarPutRequestBody carPutRequestBody) {
+        Car savedCar = findByIdOrThrowBadRequest(carPutRequestBody.getId());
+
+        var newCar = new Car();
+        newCar.setId(savedCar.getId());
+        newCar.setName(carPutRequestBody.getName());
+        newCar.setColor(carPutRequestBody.getColor());
+        newCar.setYear(carPutRequestBody.getYear());
+        carRepository.save(newCar);
     }
 
-    public void delete(Integer id){
-        mockedCars.remove(getById(id));
+    public void delete(Integer id) {
+        carRepository.deleteById(id);
     }
 }

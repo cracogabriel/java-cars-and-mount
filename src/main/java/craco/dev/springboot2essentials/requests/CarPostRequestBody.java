@@ -1,37 +1,15 @@
-package craco.dev.springboot2essentials.domain;
+package craco.dev.springboot2essentials.requests;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class Car {
-    public Car(Integer id, String name, String color, Integer year) {
-        this.id = id;
+public class CarPostRequestBody {
+    public CarPostRequestBody(String name, String color, Integer year) {
         this.name = name;
         this.color = color;
         this.year = year;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String name;
     private String color;
     private Integer year;
-
-    public Car() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -55,4 +33,5 @@ public class Car {
     public void setYear(Integer year) {
         this.year = year;
     }
+
 }
