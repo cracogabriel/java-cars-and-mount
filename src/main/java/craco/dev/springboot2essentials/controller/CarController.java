@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("carros")
+@RequestMapping("cars")
 public class CarController {
     public CarController(CarService carService) {
         this.carService = carService;
@@ -29,8 +29,20 @@ public class CarController {
         return ResponseEntity.ok(carService.getById(id));
     }
 
-    @PostMapping(path = "inserir")
+    @PostMapping()
     public ResponseEntity<Car> save(@RequestBody Car car) {
         return new ResponseEntity<Car>(carService.save(car), HttpStatus.CREATED);
+    }
+
+    @PutMapping()
+    public ResponseEntity<Car> edit(@RequestBody Car car) {
+        carService.edit(car);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping(path ="{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        carService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

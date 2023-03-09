@@ -30,4 +30,13 @@ public class CarService {
         mockedCars.add(car);
         return car;
     }
+
+    public void edit(Car car) {
+        mockedCars.remove(car.getId());
+        mockedCars.add(car);
+    }
+
+    public void delete(Integer id){
+        mockedCars.remove(getById(id));
+    }
 }
