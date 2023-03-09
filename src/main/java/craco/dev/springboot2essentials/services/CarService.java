@@ -32,7 +32,7 @@ public class CarService {
     }
 
     public void edit(Car car) {
-        mockedCars.remove(car.getId());
+        delete(car.getId());
         mockedCars.add(car);
     }
 
