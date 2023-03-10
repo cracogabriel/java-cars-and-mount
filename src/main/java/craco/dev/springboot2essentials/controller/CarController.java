@@ -5,6 +5,8 @@ import craco.dev.springboot2essentials.requests.CarPostRequestBody;
 import craco.dev.springboot2essentials.requests.CarPutRequestBody;
 import craco.dev.springboot2essentials.services.CarService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +23,13 @@ public class CarController {
     private CarService carService;
 
     @GetMapping()
-    public ResponseEntity<List<Car>> listAll() {
-        return ResponseEntity.ok(carService.listAll());
+    public ResponseEntity<Page<Car>> listAll(Pageable pageable) {
+        return ResponseEntity.ok(carService.listAll(pageable));
     }
 
     @GetMapping(path = "/find")
-    public ResponseEntity<List<Car>> findAllCarsByColorName(@RequestParam String color) {
-        return ResponseEntity.ok(carService.findAllByColorName(color));
+    public ResponseEntity<Page<Car>> findAllCarsByColorName(@RequestParam String color, Pageable pageable) {
+        return ResponseEntity.ok(carService.findAllByColorName(color, pageable));
     }
 
     @GetMapping(path = "{id}")

@@ -5,6 +5,8 @@ import craco.dev.springboot2essentials.exception.BadRequestException;
 import craco.dev.springboot2essentials.repository.CarRepository;
 import craco.dev.springboot2essentials.requests.CarPostRequestBody;
 import craco.dev.springboot2essentials.requests.CarPutRequestBody;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,12 +21,12 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public List<Car> listAll() {
-        return carRepository.findAll();
+    public Page<Car> listAll(Pageable pageable) {
+        return carRepository.findAll(pageable);
     }
 
-    public List<Car> findAllByColorName(String color) {
-        return carRepository.findByColor(color);
+    public Page<Car> findAllByColorName(String color, Pageable pageable) {
+        return carRepository.findByColor(color, pageable);
     }
 
     public Car findByIdOrThrowBadRequest(Integer id) {
