@@ -1,5 +1,10 @@
 package craco.dev.springboot2essentials.requests;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public class CarPutRequestBody {
     public CarPutRequestBody(Integer id, String name, String color, Integer year) {
         this.id = id;
@@ -9,7 +14,10 @@ public class CarPutRequestBody {
     }
 
     private Integer id;
+
+    @NotEmpty(message = "The car name can't be empty")
     private String name;
+    @NotEmpty(message = "The car's color can't be empty")
     private String color;
     private Integer year;
 

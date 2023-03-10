@@ -1,6 +1,7 @@
 package craco.dev.springboot2essentials.services;
 
 import craco.dev.springboot2essentials.domain.Car;
+import craco.dev.springboot2essentials.exception.BadRequestException;
 import craco.dev.springboot2essentials.repository.CarRepository;
 import craco.dev.springboot2essentials.requests.CarPostRequestBody;
 import craco.dev.springboot2essentials.requests.CarPutRequestBody;
@@ -28,7 +29,7 @@ public class CarService {
 
     public Car findByIdOrThrowBadRequest(Integer id) {
         return carRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Carro não encontrado"));
+                .orElseThrow(() -> new BadRequestException("Carro não encontrado"));
     }
 
     public Car save(CarPostRequestBody carPostRequestBody) {

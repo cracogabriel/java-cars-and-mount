@@ -4,7 +4,7 @@ import craco.dev.springboot2essentials.domain.Car;
 import craco.dev.springboot2essentials.requests.CarPostRequestBody;
 import craco.dev.springboot2essentials.requests.CarPutRequestBody;
 import craco.dev.springboot2essentials.services.CarService;
-import jakarta.websocket.server.PathParam;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +36,17 @@ public class CarController {
     }
 
     @PostMapping()
-    public ResponseEntity<Car> save(@RequestBody CarPostRequestBody carPostRequestBody) {
+    public ResponseEntity<Car> save(@RequestBody @Valid CarPostRequestBody carPostRequestBody) {
         return new ResponseEntity<Car>(carService.save(carPostRequestBody), HttpStatus.CREATED);
     }
 
     @PutMapping()
-    public ResponseEntity<Car> edit(@RequestBody CarPutRequestBody carPutRequestBody) {
+    public ResponseEntity<Car> edit(@RequestBody @Valid CarPutRequestBody carPutRequestBody) {
         carService.edit(carPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(path ="{id}")
+    @DeleteMapping(path = "{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         carService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
