@@ -1,9 +1,7 @@
 package craco.dev.springboot2essentials.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 public class Car {
@@ -15,10 +13,16 @@ public class Car {
     }
 
     @Id
+    @Column(name="CAR_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name="CAR_NAME")
+    @NotEmpty(message = "The car name can't be empty")
     private String name;
+    @Column(name="CAR_COLOR")
+    @NotEmpty(message = "The car's color can't be empty")
     private String color;
+    @Column(name="CAR_YEAR")
     private Integer year;
 
     public Car() {

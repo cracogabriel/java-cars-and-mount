@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface CarRepository extends JpaRepository<Car, Integer> {
     Page<Car> findByColor(String color, Pageable pageable);
+    List<Car> findByColor(String color);
 }
