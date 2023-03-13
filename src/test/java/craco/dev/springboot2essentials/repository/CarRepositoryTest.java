@@ -1,6 +1,7 @@
 package craco.dev.springboot2essentials.repository;
 
 import craco.dev.springboot2essentials.domain.Car;
+import craco.dev.springboot2essentials.util.CarCreator;
 import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,14 +16,6 @@ import java.util.Optional;
 @DisplayName("Tests for Car Repository")
 class CarRepositoryTest {
 
-    private Car createCar() {
-        Car newCar = new Car();
-        newCar.setYear(2000);
-        newCar.setColor("vermelho");
-        newCar.setName("Eclipse");
-
-        return newCar;
-    }
 
     @Autowired
     private CarRepository carRepository;
@@ -30,7 +23,7 @@ class CarRepositoryTest {
     @Test
     @DisplayName("Save created car when successful")
     void save_PersistentCar_WhenSuccessful() {
-        Car carToBeSaved = createCar();
+        Car carToBeSaved = CarCreator.createCarToBeSaved();
         Car carSaved = this.carRepository.save(carToBeSaved);
 
         Assertions.assertThat(carSaved).isNotNull();
@@ -44,7 +37,7 @@ class CarRepositoryTest {
     @Test
     @DisplayName("Save updated car when successful")
     void update_UpdateCar_WhenSuccessful() {
-        Car carToBeSaved = createCar();
+        Car carToBeSaved = CarCreator.createCarToBeSaved();
         Car carSaved = this.carRepository.save(carToBeSaved);
 
         carSaved.setName("350i");
@@ -63,7 +56,7 @@ class CarRepositoryTest {
     @Test
     @DisplayName("Delete created car when successful")
     void delete_DeleteCar_WhenSuccessful() {
-        Car carToBeSaved = createCar();
+        Car carToBeSaved = CarCreator.createCarToBeSaved();
         Car carSaved = this.carRepository.save(carToBeSaved);
 
         this.carRepository.delete(carSaved);
@@ -76,7 +69,7 @@ class CarRepositoryTest {
     @Test
     @DisplayName("Find by color and return list of car when successful")
     void findByColor_ReturnListOfCars_WhenSuccessful() {
-        Car carToBeSaved = createCar();
+        Car carToBeSaved = CarCreator.createCarToBeSaved();
         Car carSaved = this.carRepository.save(carToBeSaved);
 
         List<Car> carsFounded = this.carRepository.findByColor(carSaved.getColor());
@@ -95,7 +88,7 @@ class CarRepositoryTest {
     @Test
     @DisplayName("Save throw ConstraintViolationException when name is empty ")
     void save_ThrowsConstraintViolationException_WhenNameIsEmpty() {
-        Car carToBeSaved = createCar();
+        Car carToBeSaved = CarCreator.createCarToBeSaved();
         carToBeSaved.setName(null);
         Assertions.assertThatThrownBy(() -> this.carRepository.save(carToBeSaved))
                 .isInstanceOf(ConstraintViolationException.class);
@@ -104,7 +97,7 @@ class CarRepositoryTest {
     @Test
     @DisplayName("Save throw ConstraintViolationException when color is empty ")
     void save_ThrowsConstraintViolationException_WhenColorIsEmpty() {
-        Car carToBeSaved = createCar();
+        Car carToBeSaved = CarCreator.createCarToBeSaved();
         carToBeSaved.setColor(null);
         Assertions.assertThatThrownBy(() -> this.carRepository.save(carToBeSaved))
                 .isInstanceOf(ConstraintViolationException.class);
